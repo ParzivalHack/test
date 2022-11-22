@@ -71,6 +71,6 @@ elif options == 2:
 
 elif options == 3:
     target_ip = str(input("Insert Target IP or Website: "))
-    port = int(input("Insert Target Port (443 suggested): "))
+    port2 = int(input("Insert Target Port (443 suggested): "))
     number_of_packets_to_send = int(input("Insert Number of Packets to send: "))
-    send_syn(target_ip, port, number_of_packets_to_send)
+    send_syn(target_ip, port2, number_of_packets_to_send)
