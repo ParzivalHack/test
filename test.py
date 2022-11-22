@@ -64,13 +64,13 @@ if options == 1:
             thread.start()
 
 elif options == 2:
-    target_ip = str(input("Insert Target IP or Website: "))
+    target_ip2 = str(input("Insert Target IP or Website: "))
     target_port = int(input("Insert Target Port (443 suggested): "))
     number_of_packets_to_send2 = int(input("Insert Number of Packets to send: ")) 
-    send_ping(target_ip, number_of_packets_to_send2)
+    send_ping(target_ip2, number_of_packets_to_send2)
 
 elif options == 3:
-    target_ip2 = str(input("Insert Target IP or Website: "))
+    target_ip = str(input("Insert Target IP or Website: "))
     port = int(input("Insert Target Port (443 suggested): "))
     number_of_packets_to_send = int(input("Insert Number of Packets to send: "))
-    send_syn(target_ip2, port, number_of_packets_to_send)
+    send_syn(target_ip, port, number_of_packets_to_send)
