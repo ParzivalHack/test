@@ -77,13 +77,13 @@ def main():
     print(option)
     if option == 1:
         os.system("clear")
-        dstIP = str(input("Target IP: "))
+        dstIP = input("Target IP: "))
         dstPort = int(input("Target Port: "))
         counter = int(input("Packets to send: "))
         SYN_Flood(dstIP,dstPort,int(counter))
     elif option == 2:
         os.system("clear")
-        target = str(input("Insert Target: "))
+        target = input("Insert Target: "))
         port = int(input("Insert Port: "))
         attack(target, port)
 
