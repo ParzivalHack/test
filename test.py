@@ -47,8 +47,8 @@ def info():
 	print ("# Welcome to Python3 SYN Flood Tool #")
 	print ("#####################################")
 
-	dstIP = input ("\nTarget IP : ")
-	dstPort = input ("Target Port : ")
+	dstIP = str(input("\nTarget IP : "))
+	dstPort = int(input("Target Port : "))
 
 	return dstIP,int(dstPort)
 
