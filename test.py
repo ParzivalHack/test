@@ -6,9 +6,9 @@ import os
 
 os.system("clear")
 print ("#####################################")
-print ("#        github.com/EmreOvunc       #")
+print ("#        github.com/ParzivalHack    #")
 print ("#####################################")
-print ("# Welcome to Python3 SYN Flood Tool #")
+print ("############## Welcome ##############")
 print ("#####################################")
 
 dstIP = str(input("Target IP : "))
