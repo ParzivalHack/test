@@ -65,7 +65,6 @@ if options == 1:
 
 elif options == 2:
     target_ip2 = str(input("Insert Target IP or Website: "))
-    target_port = int(input("Insert Target Port (443 suggested): "))
     number_of_packets_to_send2 = int(input("Insert Number of Packets to send: ")) 
     send_ping(target_ip2, number_of_packets_to_send2)
 
