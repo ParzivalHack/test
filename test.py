@@ -11,7 +11,7 @@ print ("#####################################")
 print ("############## Welcome ##############")
 print ("#####################################")
 
-dstIP = str(input("Target IP : "))
+dstIP = str(raw_input("Target IP : "))
 dstPort = int(input("Target Port : "))
 counter = input("How many packets do you want to send : ")
 
