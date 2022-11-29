@@ -11,9 +11,9 @@ print ("#####################################")
 print ("# Welcome to Python3 SYN Flood Tool #")
 print ("#####################################")
 
-dstIP = str(input("\nTarget IP : "))
+dstIP = str(input("Target IP : "))
 dstPort = int(input("Target Port : "))
-counter = input ("How many packets do you want to send : ")
+counter = input("How many packets do you want to send : ")
 
 def randomIP():
 	ip = ".".join(map(str, (randint(0,255)for _ in range(4))))
