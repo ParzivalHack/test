@@ -18,7 +18,6 @@ def Attack(target, port):
 
         global attack_num
         attack_num += 1
-        print(attack_num)
 
         s.close()
     for i in range(500):
@@ -103,6 +102,7 @@ def main():
         target = raw_input("Target IP: ")
         port = int(input("Target Port (80 suggested): "))
         Attack(target, port)
+	print(attack_num)
 
 
 if __name__ == "__main__":
