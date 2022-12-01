@@ -71,8 +71,8 @@ def main():
     print("Coded By: ParzivalHack")
     print("Github: https://github.com/ParzivalHack")
     print("      [Menu]      ")
-    print("1) SYN Flood")
-    print("2) HTTP Flood")
+    print("1) SYN Flood (For small websites)")
+    print("2) HTTP Flood (For medium websites)")
     option = int(input("Choose an option: "))
     print(option)
     if option == 1:
@@ -80,7 +80,7 @@ def main():
 	os.system("toilet T-DoS")
         dstIP = raw_input("Target IP: ")
         dstPort = int(input("Target Port (443 suggested): "))
-        counter = int(input("Packets to send: "))
+        counter = int(input("Packets to send (5000 suggested): "))
         SYN_Flood(dstIP,dstPort,int(counter))
     elif option == 2:
         os.system("clear")
