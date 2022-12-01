@@ -100,7 +100,7 @@ def main():
         print("  / /_____/ / / / __ \\__ \ ")
         print(" / /_____/ /_/ / /_/ /__/ / ")
         print("/_/     /_____/\____/____/  ")
-        target = raw_input("Target IP: ")
+        target = input("Target IP: ")
         port = int(input("Target Port (80 suggested): "))
         attack(target, port)
 
