@@ -84,8 +84,10 @@ def main():
         SYN_Flood(dstIP,dstPort,int(counter))
     elif option == 2:
         os.system("clear")
+	print("On Termux this attack doesn't work (unless you are Root) because of sockets permissions")
+	time.sleep(5)
 	os.system("toilet T-DoS")
-        target = input("Target IP: ")
+        target = raw_input("Target IP: ")
         port = int(input("Target Port (80 suggested): "))
         attack(target, port)
 
