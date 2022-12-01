@@ -77,7 +77,7 @@ def main():
     print(option)
     if option == 1:
         os.system("clear")
-        dstIP = input("Target IP: ")
+        dstIP = raw_input("Target IP: ")
         dstPort = int(input("Target Port: "))
         counter = int(input("Packets to send: "))
         SYN_Flood(dstIP,dstPort,int(counter))
