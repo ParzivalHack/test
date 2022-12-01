@@ -77,14 +77,16 @@ def main():
     print(option)
     if option == 1:
         os.system("clear")
+	os.system("toilet T-DoS")
         dstIP = raw_input("Target IP: ")
-        dstPort = int(input("Target Port: "))
+        dstPort = int(input("Target Port (443 suggested): "))
         counter = int(input("Packets to send: "))
         SYN_Flood(dstIP,dstPort,int(counter))
     elif option == 2:
         os.system("clear")
-        target = input("Insert Target: ")
-        port = int(input("Insert Port: "))
+	os.system("toilet T-DoS")
+        target = input("Target IP: ")
+        port = int(input("Target Port (80 suggested): "))
         attack(target, port)
 
 
