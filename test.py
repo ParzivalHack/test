@@ -1,46 +1,34 @@
-import argparse
-import curses
-from scapy.all import *
+import subprocess
 
-def packet_handler(packet, stdscr):
-    # Extract basic packet information
-    src_ip = packet[IP].src
-    dst_ip = packet[IP].dst
-    protocol = packet[IP].proto
-
-    # Print packet details
-    stdscr.addstr(f"Source IP: {src_ip}\n")
-    stdscr.addstr(f"Destination IP: {dst_ip}\n")
-    stdscr.addstr(f"Protocol: {protocol}\n")
-    stdscr.refresh()
-
-def capture_traffic(interface, stdscr):
+def capture_traffic(interface):
     try:
-        sniff(iface=interface, prn=lambda packet: packet_handler(packet, stdscr))
-    except PermissionError:
-        stdscr.addstr("Insufficient permissions to capture network traffic.\n")
-        stdscr.refresh()
-    except KeyboardInterrupt:
-        stdscr.addstr("Traffic capture stopped by user.\n")
-        stdscr.refresh()
+        # Run tshark command to capture traffic on the specified interface
+        command = f"tshark -i {interface} -T fields -e ip.src -e ip.dst -e ip.proto"
+        process = subprocess.Popen(command.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout, _ = process.communicate()
 
-def main(stdscr):
-    stdscr.clear()
-    stdscr.addstr("CyberTrace - Network Traffic Analyzer\n")
-    stdscr.addstr("------------------------------------\n")
+        # Process the captured packet information
+        packets = stdout.decode().splitlines()
+        for packet in packets:
+            src_ip, dst_ip, protocol = packet.split("\t")
+            print(f"Source IP: {src_ip}")
+            print(f"Destination IP: {dst_ip}")
+            print(f"Protocol: {protocol}")
+            print()
+
+    except FileNotFoundError:
+        print("Wireshark package not found. Please install Wireshark in Termux.")
+
+def main():
+    print("CyberTrace - Network Traffic Analyzer")
+    print("------------------------------------")
 
     # Get user input for interface
-    stdscr.addstr("Enter the network interface to capture traffic from: ")
-    stdscr.refresh()
-    interface = stdscr.getstr().decode()
+    interface = input("Enter the network interface to capture traffic from: ")
 
-    stdscr.addstr("\nPress 'q' to stop capturing traffic.\n\n")
-    stdscr.refresh()
+    print("\nPress Ctrl+C to stop capturing traffic.\n")
 
-    capture_traffic(interface, stdscr)
-
-def run_wizard():
-    curses.wrapper(main)
+    capture_traffic(interface)
 
 if __name__ == "__main__":
-    run_wizard()
+    main()
