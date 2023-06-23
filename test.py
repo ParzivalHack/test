@@ -1,34 +1,22 @@
-import subprocess
+import random
+import string
 
-def capture_traffic(interface):
-    try:
-        # Run tshark command to capture traffic on the specified interface
-        command = f"tshark -i {interface} -T fields -e ip.src -e ip.dst -e ip.proto"
-        process = subprocess.Popen(command.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        stdout, _ = process.communicate()
-
-        # Process the captured packet information
-        packets = stdout.decode().splitlines()
-        for packet in packets:
-            src_ip, dst_ip, protocol = packet.split("\t")
-            print(f"Source IP: {src_ip}")
-            print(f"Destination IP: {dst_ip}")
-            print(f"Protocol: {protocol}")
-            print()
-
-    except FileNotFoundError:
-        print("Wireshark package not found. Please install Wireshark in Termux.")
+def generate_password(length):
+    chars = string.ascii_letters + string.digits + string.punctuation
+    password = ''.join(random.choice(chars) for _ in range(length))
+    return password
 
 def main():
-    print("CyberTrace - Network Traffic Analyzer")
-    print("------------------------------------")
+    print("Welcome to The Happy Train - Password Generator")
 
-    # Get user input for interface
-    interface = input("Enter the network interface to capture traffic from: ")
+    while True:
+        length = input("Enter the desired password length (8 or more characters): ")
+        if length.isdigit() and int(length) >= 8:
+            break
+        print("Invalid input. Please enter a valid length.")
 
-    print("\nPress Ctrl+C to stop capturing traffic.\n")
-
-    capture_traffic(interface)
+    password = generate_password(int(length))
+    print(f"Generated Password: {password}")
 
 if __name__ == "__main__":
     main()
