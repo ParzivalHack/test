@@ -61,8 +61,12 @@ class InterceptingTool(cmd.Cmd):
     def edit_request(self, flow):
         """Edit the intercepted request using an external text editor."""
         with tempfile.NamedTemporaryFile(suffix=".http") as temp_file:
-            temp_file.write(f"{flow.method} {flow.url}\n\n".encode())
-            temp_file.write(flow.body or b"")
+            temp_file.write(f"{flow.method} {flow.url}\n".encode())
+            for header, value in flow.headers.items():
+                temp_file.write(f"{header}: {value}\n".encode())
+            temp_file.write(b"\n")
+            if flow.body:
+                temp_file.write(flow.body)
             temp_file.flush()
             try:
                 subprocess.call(["nano", temp_file.name])
