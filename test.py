@@ -50,10 +50,10 @@ class InterceptingTool(cmd.Cmd):
                 flow = self.intercepted_flows[flow_index - 1]
                 modified_request = self.edit_request(flow)
                 if modified_request:
-                    # Send the modified request
+                    # Send the modified request to the initial URL
                     try:
                         session = requests.Session()
-                        response = session.send(modified_request)
+                        response = session.send(modified_request, url=flow.url)
                         print("Modified request sent successfully.")
                     except requests.exceptions.RequestException as e:
                         print(f"Error sending modified request: {e}")
