@@ -53,6 +53,7 @@ class InterceptingTool(cmd.Cmd):
                     # Send the modified request to the initial URL
                     try:
                         session = requests.Session()
+                        modified_request.method = flow.method  # Set the method directly
                         response = session.send(modified_request, url=flow.url)
                         print("Modified request sent successfully.")
                     except requests.exceptions.RequestException as e:
@@ -76,7 +77,6 @@ class InterceptingTool(cmd.Cmd):
                 modified_request_text = temp_file.read().decode()
                 modified_request = requests.Request()
                 modified_request.prepare(
-                    method=flow.method,
                     url=flow.url,
                     headers=flow.headers,
                     data=modified_request_text.encode() if modified_request_text else flow.body,
