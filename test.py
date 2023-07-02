@@ -77,7 +77,7 @@ class InterceptingTool(cmd.Cmd):
                     method=flow.method,
                     url=flow.url,
                     headers=flow.headers,
-                    data=modified_request_text if modified_request_text else flow.body,
+                    data=modified_request_text.encode() if modified_request_text else flow.body,
                 )
                 return modified_request
             except FileNotFoundError:
