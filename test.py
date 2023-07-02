@@ -2,10 +2,12 @@ import cmd
 import requests
 import subprocess
 import tempfile
+import os
 
 class InterceptingTool(cmd.Cmd):
-    intro = "Welcome to Intercepting Tool! Type 'help' for a list of commands."
-    prompt = "(Intercepting Tool) "
+    os.system("figlet Fart Suite")
+    intro = "Welcome to Fart Suite (the lil brother of Burp Suite)! Type 'help' for a list of commands."
+    prompt = "Fart Suite~$ "
 
     intercepted_flows = []
 
