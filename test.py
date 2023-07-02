@@ -50,7 +50,8 @@ class InterceptingTool(cmd.Cmd):
                 if modified_request:
                     # Send the modified request
                     try:
-                        response = requests.send(modified_request)
+                        session = requests.Session()
+                        response = session.send(modified_request)
                         print("Modified request sent successfully.")
                     except requests.exceptions.RequestException as e:
                         print(f"Error sending modified request: {e}")
@@ -60,8 +61,8 @@ class InterceptingTool(cmd.Cmd):
     def edit_request(self, flow):
         """Edit the intercepted request using an external text editor."""
         with tempfile.NamedTemporaryFile(suffix=".http") as temp_file:
-            if flow.body is not None:
-                temp_file.write(flow.body)
+            temp_file.write(f"{flow.method} {flow.url}\n\n".encode())
+            temp_file.write(flow.body or b"")
             temp_file.flush()
             try:
                 subprocess.call(["nano", temp_file.name])
